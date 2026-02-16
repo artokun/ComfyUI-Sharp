@@ -1,0 +1,25 @@
+{
+  "frames": [
+    {
+      "file": "frame_000.jpg",
+      "time": 0.0,
+      "log": "Capturing execution frames: sharp_basic.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  [Console-error] [GaussianViewer] Init error: TypeError: Cannot read properties of null (reading 'createProgram')\n    at new lt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1252:25)\n    at new Ct (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1853:7)\n    at new Mt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:2029:52)\n    at initViewer (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:165:28)\n    at http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:857:9"
+    },
+    {
+      "file": "frame_001.jpg",
+      "time": 291.22,
+      "log": "Capturing execution frames: sharp_basic.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  [Console-error] [GaussianViewer] Init error: TypeError: Cannot read properties of null (reading 'createProgram')\n    at new lt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1252:25)\n    at new Ct (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1853:7)\n    at new Mt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:2029:52)\n    at initViewer (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:165:28)\n    at http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:857:9\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_002.jpg",
+      "time": 295.61,
+      "log": "Capturing execution frames: sharp_basic.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  [Console-error] [GaussianViewer] Init error: TypeError: Cannot read properties of null (reading 'createProgram')\n    at new lt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1252:25)\n    at new Ct (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1853:7)\n    at new Mt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:2029:52)\n    at initViewer (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:165:28)\n    at http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:857:9\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_003.jpg",
+      "time": 311.7329316139221,
+      "log": "Final screenshot"
+    }
+  ],
+  "total_time": 295.75
+}

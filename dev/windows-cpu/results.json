@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-02-16T16:49:22.747564+00:00",
+  "platform": "windows",
+  "hardware": {
+    "os": "Windows-2025Server-10.0.26100-SP0",
+    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+  },
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "pano",
+      "status": "pass",
+      "duration_seconds": 3688.99,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 10.2,
+          "avg": 7.45
+        },
+        "total_ram_gb": 16.0,
+        "samples": 3685
+      }
+    },
+    {
+      "name": "sharp_basic",
+      "status": "pass",
+      "duration_seconds": 320.52,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.55,
+          "avg": 7.42
+        },
+        "total_ram_gb": 16.0,
+        "samples": 321
+      }
+    },
+    {
+      "name": "sharp_exif",
+      "status": "pass",
+      "duration_seconds": 314.48,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.48,
+          "avg": 7.62
+        },
+        "total_ram_gb": 16.0,
+        "samples": 315
+      }
+    }
+  ]
+}

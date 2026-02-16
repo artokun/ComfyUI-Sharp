@@ -1,0 +1,80 @@
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-log] [VTK Bundle] GLTFImporter included in bundle
+[Console-warning] WARNING: Multiple instances of Three.js being imported.
+[Console-log] [GeomPack Multi JS] Loading mesh_preview_multi.js extension
+[Console-log] [GeomPack] Loading UV mesh preview extension...
+[Console-log] [GeomPack] UV mesh preview extension registered
+[Console-log] [FBX Preview] Auto-registering for all known FBX preview node types...
+[Console-log] [UniRig] Loading FBX mesh preview extension...
+[Console-log] [UniRig] Detected extension folder: ComfyUI-GeometryPack
+[Console-log] [UniRig] FBX mesh preview extension registered
+[Console-log] [SAM3DBody] Loading FBX mesh preview extension...
+[Console-log] [SAM3DBody] Detected extension folder: ComfyUI-GeometryPack
+[Console-log] [SAM3DBody] FBX mesh preview extension registered
+[Console-log] [MotionCapture] Loading FBX mesh preview extension...
+[Console-log] [MotionCapture] Detected extension folder: ComfyUI-GeometryPack
+[Console-log] [MotionCapture] FBX mesh preview extension registered
+[Console-log] [MotionCapture] Loading FBX mesh preview extension...
+[Console-log] [MotionCapture] Detected extension folder: ComfyUI-GeometryPack
+[Console-log] [MotionCapture] FBX mesh preview extension registered
+[Console-log] [UniRig Compare] Loading compare skeleton widget...
+[Console-log] [UniRig Compare] Detected extension folder: ComfyUI-GeometryPack
+[Console-log] [UniRig Compare] Compare skeleton widget registered
+[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension
+[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension...
+[Console-log] [CompareSMPLBVH] Extension registered: comfy3d.comparesmplbvh
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension...
+[Console-log] [FBXAnimationViewer] Extension registered: comfy3d.fbxanimationviewer
+[Console-log] [DynamicWidgets] Loading extension...
+[Console-log] [DynamicWidgets] Extension registered
+[Console-log] [GeomPack] Loading VTK.js textured mesh preview extension...
+[Console-log] [GeomPack] VTK.js textured mesh preview extension registered
+[Console-log] [BVHViewer] Loading BVH Viewer extension
+[Console-log] [BVHViewer] Loading BVH viewer extension...
+[Console-log] [BVHViewer] Extension registered: comfy3d.bvhviewer
+[Console-log] [GeomPack Gaussian] Loading extension...
+[Console-log] [UniRig Debug] Loading FBX mesh preview extension...
+[Console-log] [UniRig Debug] Detected extension folder: ComfyUI-GeometryPack
+[Console-log] [UniRig Debug] FBX mesh preview extension registered
+[Console-log] [GeomPack] Loading mesh preview extension...
+[Console-log] [GeomPack] Mesh preview extension registered
+[Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[Console-log] [DynamicWidgets] Loaded mappings for 6 nodes
+[Console-log] [GeomPack] Registering Preview Mesh node
+[Console-log] [GeomPack] Registering Preview Mesh UV node
+[Console-log] [GeomPack Gaussian] Registering Preview Gaussian node
+[Console-error] [GaussianViewer] Init error: TypeError: Cannot read properties of null (reading 'createProgram')
+    at new lt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1252:25)
+    at new Ct (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:1853:7)
+    at new Mt (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/js/gsplat-bundle.js:2029:52)
+    at initViewer (http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:165:28)
+    at http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=1771259932910:857:9
+[Console-log] [GaussianViewer] Ready - waiting for LOAD_MESH message
+[Console-log] [comfy-test] graphToPrompt: 4 nodes, missing class_type: [], sample: {"inputs":{"image":"beach.jpg"},"class_type":"LoadImage","_meta":{"title":"Load Image"}}
+[Console-log] [GeomPack Gaussian] onExecuted called with: {ply_file: Array(1), filename: Array(1), file_size_mb: Array(1), extrinsics: Array(1), intrinsics: Array(1)}
+[Console-log] [GeomPack Gaussian] Resized node to: 512 x 401 (aspect ratio: 1.50 )
+[Console-log] [GeomPack Gaussian] Fetching PLY file: /view?filename=sharp_1771259943015.ply&type=output&subfolder=
+[Console-log] [GeomPack Gaussian] Fetched PLY file, size: 66060651
+[Console-log] [GaussianViewer] Received LOAD_MESH_DATA, size: 66060651
+[Console-log] [GaussianViewer] Extrinsics: [Array(4), Array(4), Array(4), Array(4)]
+[Console-log] [GaussianViewer] Intrinsics: [Array(3), Array(3), Array(3)]
+[Console-log] [GaussianViewer] Pre-calculated scale compensation: 31.22 x
+[Console-log] [GaussianViewer] Ratio: 3.12 Density Boost: 10
+[Console-log] [GaussianViewer] (Image: 1536 px / Container: 492 px)
+[Console-log] [GaussianViewer] Loading from data, size: 66060651
+[Console-log] [GaussianViewer] Scene bounds center: -3.146122932434082 -2.483471393585205 21.137833416461945
+[Console-log] [GaussianViewer] Scene bounds size: 47.46407890319824 28.472582817077637 41.47548520565033
+[Console-log] [GaussianViewer] Stored compensated scales (factor: 31.22 x)
+[Console-log] [GaussianViewer] === GAUSSIAN SCALE DEBUG (after compensation) ===
+[Console-log] [GaussianViewer] Number of Gaussians: 1179648
+[Console-log] [GaussianViewer] Compensated scale min: 0.000864
+[Console-log] [GaussianViewer] Compensated scale max: 9.778355
+[Console-log] [GaussianViewer] Compensated scale avg: 0.368062
+[Console-log] [GaussianViewer] =================================================
+[Console-log] [GaussianViewer] Loaded successfully

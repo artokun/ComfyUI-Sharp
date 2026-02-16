@@ -1,0 +1,40 @@
+{
+  "frames": [
+    {
+      "file": "frame_000.jpg",
+      "time": 0.0,
+      "log": "Capturing execution frames: pano.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration."
+    },
+    {
+      "file": "frame_001.jpg",
+      "time": 8.81,
+      "log": "Capturing execution frames: pano.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_002.jpg",
+      "time": 12028.43,
+      "log": "Capturing execution frames: pano.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_003.jpg",
+      "time": 12030.33,
+      "log": "Capturing execution frames: pano.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_004.jpg",
+      "time": 12045.91,
+      "log": "Capturing execution frames: pano.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_005.jpg",
+      "time": 12049.1,
+      "log": "Capturing execution frames: pano.json\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)\n  [Console-warning] WARNING: Multiple instances of Three.js being imported.\n  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_006.jpg",
+      "time": 12066.50897526741,
+      "log": "Final screenshot"
+    }
+  ],
+  "total_time": 12049.23
+}
