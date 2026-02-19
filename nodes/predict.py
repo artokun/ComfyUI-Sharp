@@ -56,6 +56,13 @@ class SharpPredict:
                     "default": "sharp",
                     "tooltip": "Prefix for output PLY filename or folder name for batches."
                 }),
+                "ply_directory": ("STRING", {
+                    "default": "",
+                    "tooltip": "Explicit output directory name (under ComfyUI output/). "
+                               "When set, uses this exact name instead of appending a timestamp. "
+                               "Existing PLY files are reused (skipped), so batch runs survive restarts. "
+                               "Supports subdirectories (e.g. 'vid2vr/my_video/sharp')."
+                }),
             }
         }
 
@@ -73,11 +80,16 @@ class SharpPredict:
         image: torch.Tensor,
         focal_length_mm: float = 0.0,
         output_prefix: str = "sharp",
+        ply_directory: str = "",
     ):
         """Run SHARP inference and save PLY file(s).
 
-        For single image: saves {prefix}_{timestamp}.ply
-        For batch: creates folder {prefix}_{timestamp}/ with 001.ply, 002.ply, etc.
+        For single image: saves {prefix}_{timestamp}.ply (or into ply_directory)
+        For batch: creates folder with 001.ply, 002.ply, etc.
+
+        When ply_directory is set, uses that exact name (no timestamp) and skips
+        frames whose PLY files already exist — enabling batch runs to survive
+        ComfyUI restarts without re-processing completed frames.
 
         Features are cached per image - changing focal_length with same image is instant.
         """
@@ -95,16 +107,27 @@ class SharpPredict:
 
         # Ensure output directory exists
         os.makedirs(OUTPUT_DIR, exist_ok=True)
-        timestamp = int(time.time() * 1000)
 
         # Determine output path(s)
-        if batch_size == 1:
+        if ply_directory:
+            # Deterministic directory — survives restarts
+            output_folder = os.path.join(OUTPUT_DIR, ply_directory)
+            os.makedirs(output_folder, exist_ok=True)
+            if batch_size == 1:
+                output_path = os.path.join(output_folder, "001.ply")
+                is_batch = False
+            else:
+                output_path = output_folder
+                is_batch = True
+        elif batch_size == 1:
             # Single image: save directly as PLY file
+            timestamp = int(time.time() * 1000)
             output_filename = f"{output_prefix}_{timestamp}.ply"
             output_path = os.path.join(OUTPUT_DIR, output_filename)
             is_batch = False
         else:
-            # Multiple images: create folder
+            # Multiple images: create folder with timestamp
+            timestamp = int(time.time() * 1000)
             folder_name = f"{output_prefix}_{timestamp}"
             output_folder = os.path.join(OUTPUT_DIR, folder_name)
             os.makedirs(output_folder, exist_ok=True)
@@ -116,14 +139,38 @@ class SharpPredict:
         all_intrinsics = []
 
         inference_start = time.time()
+        skipped = 0
 
         for i in range(batch_size):
+            # Determine output filename
+            if is_batch or ply_directory:
+                ply_filename = f"{i+1:03d}.ply"
+                ply_path = os.path.join(
+                    output_folder if (is_batch or ply_directory) else OUTPUT_DIR,
+                    ply_filename,
+                )
+            else:
+                ply_path = output_path
+
+            # Skip if PLY already exists (resume support)
+            if os.path.exists(ply_path) and os.path.getsize(ply_path) > 0:
+                skipped += 1
+                if skipped <= 3 or skipped == batch_size:
+                    print(f"[SHARP] Skipping {i+1}/{batch_size} (already exists: {os.path.basename(ply_path)})")
+                elif skipped == 4:
+                    print(f"[SHARP] Skipping remaining existing files...")
+                all_ply_paths.append(ply_path)
+                # Placeholder camera params for skipped frames
+                all_extrinsics.append([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+                all_intrinsics.append(None)
+                continue
+
             # Extract single image from batch
             single_image = image[i:i+1]
             image_np = comfy_to_numpy_rgb(single_image)
             height, width = image_np.shape[:2]
 
-            if i == 0:
+            if i == 0 or (skipped > 0 and len(all_ply_paths) == skipped + 1):
                 print(f"[SHARP] Image size: {width}x{height}")
 
             # Determine focal length in pixels
@@ -135,13 +182,6 @@ class SharpPredict:
             # Run inference with caching
             print(f"[SHARP] Running inference on image {i+1}/{batch_size}...")
             gaussians = self._predict_image_cached(predictor, image_np, f_px, device)
-
-            # Determine output filename
-            if is_batch:
-                ply_filename = f"{i+1:03d}.ply"
-                ply_path = os.path.join(output_folder, ply_filename)
-            else:
-                ply_path = output_path
 
             # Save PLY and get metadata
             _, metadata = save_ply(gaussians, f_px, (height, width), Path(ply_path))
@@ -160,16 +200,21 @@ class SharpPredict:
             gc.collect()
 
         inference_time = time.time() - inference_start
-        print(f"[SHARP] Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")
+        processed = batch_size - skipped
+        if skipped > 0:
+            print(f"[SHARP] Done: {processed} processed, {skipped} skipped (already existed), {inference_time:.2f}s total")
+        else:
+            print(f"[SHARP] Total inference time: {inference_time:.2f}s ({inference_time/max(processed,1):.2f}s per image)")
+
+        # Use first non-None intrinsics for return value
+        first_extrinsics = next((e for e in all_extrinsics if e is not None), [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+        first_intrinsics = next((i for i in all_intrinsics if i is not None), [[1,0,0],[0,1,0],[0,0,1]])
 
         # Return values
-        if is_batch:
-            # For batch: return folder path, and first image's camera params
-            # (assuming all images have same camera - user can override)
-            return (output_path, all_extrinsics[0], all_intrinsics[0],)
+        if is_batch or ply_directory:
+            return (output_path, first_extrinsics, first_intrinsics,)
         else:
-            # For single image: return PLY path and camera params
-            return (output_path, all_extrinsics[0], all_intrinsics[0],)
+            return (output_path, first_extrinsics, first_intrinsics,)
 
     def _predict_image_cached(
         self,
