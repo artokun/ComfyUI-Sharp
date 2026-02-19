@@ -160,9 +160,16 @@ class SharpPredict:
                 elif skipped == 4:
                     print(f"[SHARP] Skipping remaining existing files...")
                 all_ply_paths.append(ply_path)
-                # Placeholder camera params for skipped frames
+                # Compute camera params from image dims (consistent with processed frames)
+                skip_h, skip_w = image[i].shape[0], image[i].shape[1]
+                skip_fl = focal_length_mm if focal_length_mm > 0 else 30.0
+                skip_f_px = convert_focallength(skip_w, skip_h, skip_fl)
                 all_extrinsics.append([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-                all_intrinsics.append(None)
+                all_intrinsics.append([
+                    [skip_f_px, 0, skip_w * 0.5],
+                    [0, skip_f_px, skip_h * 0.5],
+                    [0, 0, 1],
+                ])
                 continue
 
             # Extract single image from batch
