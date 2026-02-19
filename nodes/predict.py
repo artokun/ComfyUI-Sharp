@@ -1,5 +1,6 @@
 """SharpPredict node for ComfyUI-Sharp."""
 
+import gc
 import hashlib
 import os
 import time
@@ -150,6 +151,13 @@ class SharpPredict:
             all_intrinsics.append(metadata["intrinsic"])
 
             print(f"[SHARP] Saved: {ply_path} ({metadata['num_gaussians']:,} gaussians)")
+
+            # Clean up intermediate tensors to prevent memory accumulation
+            # during long batch runs (see GitHub issue #7: progressively slower)
+            del gaussians, image_np
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
+            gc.collect()
 
         inference_time = time.time() - inference_start
         print(f"[SHARP] Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")

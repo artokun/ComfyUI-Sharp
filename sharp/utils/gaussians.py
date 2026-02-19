@@ -402,7 +402,12 @@ def save_ply(
 
     num_gaussians = len(xyz)
     elements = np.empty(num_gaussians, dtype=dtype_full)
-    elements[:] = list(map(tuple, attributes.detach().cpu().numpy()))
+    # Assign columns directly instead of creating N Python tuples (avoids
+    # ~200 MB of heap churn per frame for 1M+ Gaussians, which causes
+    # process hangs on long batch runs).
+    attr_np = attributes.detach().cpu().numpy()
+    for col_idx, (field_name, _) in enumerate(dtype_full):
+        elements[field_name] = attr_np[:, col_idx]
     vertex_elements = PlyElement.describe(elements, "vertex")
 
     # Build metadata dictionary instead of embedding in PLY
