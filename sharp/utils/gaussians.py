@@ -402,9 +402,8 @@ def save_ply(
 
     num_gaussians = len(xyz)
     elements = np.empty(num_gaussians, dtype=dtype_full)
-    # Assign columns directly instead of creating N Python tuples (avoids
-    # ~200 MB of heap churn per frame for 1M+ Gaussians, which causes
-    # process hangs on long batch runs).
+    # Populate structured array via per-column assignment (memory-efficient
+    # for 1M+ Gaussians).
     attr_np = attributes.detach().cpu().numpy()
     for col_idx, (field_name, _) in enumerate(dtype_full):
         elements[field_name] = attr_np[:, col_idx]
