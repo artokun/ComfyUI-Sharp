@@ -58,6 +58,10 @@ class SharpPredict:
                     "default": "sharp",
                     "tooltip": "Prefix for output PLY filename or folder name for batches."
                 }),
+                "ply_directory": ("STRING", {
+                    "default": "",
+                    "tooltip": "Fixed output directory (e.g. 'vid2vr/my_scene'). When set, uses this exact path under output/ instead of a timestamp. Existing PLY files are skipped for resumable batch runs."
+                }),
                 "extrinsics": ("EXTRINSICS", {
                     "tooltip": "Camera extrinsics (from SamplePanorama). If batched, must match image batch size."
                 }),
@@ -81,6 +85,7 @@ class SharpPredict:
         image: torch.Tensor,
         focal_length_mm: float = 0.0,
         output_prefix: str = "sharp",
+        ply_directory: str = "",
         extrinsics: torch.Tensor = None,
         intrinsics: torch.Tensor = None,
     ):
@@ -88,6 +93,9 @@ class SharpPredict:
 
         For single image: saves {prefix}_{timestamp}.ply
         For batch: creates folder {prefix}_{timestamp}/ with 001.ply, 002.ply, etc.
+
+        When ply_directory is set, uses a deterministic path and skips existing
+        PLY files, enabling resumable batch runs across ComfyUI restarts.
 
         Features are cached per image - changing focal_length with same image is instant.
 
@@ -125,37 +133,75 @@ class SharpPredict:
 
         # Ensure output directory exists
         os.makedirs(OUTPUT_DIR, exist_ok=True)
-        timestamp = int(time.time() * 1000)
 
         # Determine output path(s)
-        if batch_size == 1:
-            # Single image: save directly as PLY file
-            output_filename = f"{output_prefix}_{timestamp}.ply"
-            output_path = os.path.join(OUTPUT_DIR, output_filename)
-            is_batch = False
-        else:
-            # Multiple images: create folder
-            folder_name = f"{output_prefix}_{timestamp}"
-            output_folder = os.path.join(OUTPUT_DIR, folder_name)
+        ply_directory = ply_directory.strip()
+        if ply_directory:
+            # Deterministic directory — supports resumable batch runs
+            output_folder = os.path.join(OUTPUT_DIR, ply_directory)
             os.makedirs(output_folder, exist_ok=True)
             output_path = output_folder
             is_batch = True
+        else:
+            # Timestamp-based output (original behavior)
+            timestamp = int(time.time() * 1000)
+            if batch_size == 1:
+                output_filename = f"{output_prefix}_{timestamp}.ply"
+                output_path = os.path.join(OUTPUT_DIR, output_filename)
+                is_batch = False
+            else:
+                folder_name = f"{output_prefix}_{timestamp}"
+                output_folder = os.path.join(OUTPUT_DIR, folder_name)
+                os.makedirs(output_folder, exist_ok=True)
+                output_path = output_folder
+                is_batch = True
 
         all_ply_paths = []
         all_extrinsics = []
         all_intrinsics = []
 
+        # Pre-compute image dimensions and focal length for skip metadata
+        img_height, img_width = image.shape[1], image.shape[2]
+        if has_camera_params:
+            f_px_default = intrinsics[0, 0].item()
+        else:
+            f_px_default = convert_focallength(
+                img_width, img_height, focal_length_mm if focal_length_mm > 0 else 30.0
+            )
+
         inference_start = time.time()
         pbar = comfy.utils.ProgressBar(batch_size)
+        skipped = 0
 
         for i in range(batch_size):
             comfy.model_management.throw_exception_if_processing_interrupted()
+
+            # Determine output path for this frame
+            if is_batch:
+                ply_filename = f"{i+1:03d}.ply"
+                ply_path = os.path.join(output_folder, ply_filename)
+            else:
+                ply_path = output_path
+
+            # Skip existing frames in deterministic mode (resume support)
+            if ply_directory and os.path.isfile(ply_path) and os.path.getsize(ply_path) > 0:
+                all_ply_paths.append(ply_path)
+                all_extrinsics.append([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+                all_intrinsics.append([
+                    [f_px_default, 0, img_width * 0.5],
+                    [0, f_px_default, img_height * 0.5],
+                    [0, 0, 1],
+                ])
+                skipped += 1
+                pbar.update(1)
+                continue
+
             # Extract single image from batch
             single_image = image[i:i+1]
             image_np = comfy_to_numpy_rgb(single_image)
             height, width = image_np.shape[:2]
 
-            if i == 0:
+            if i == 0 or (skipped > 0 and skipped == i):
                 log.info(f"Image size: {width}x{height}")
 
             # Get camera parameters for this image
@@ -181,13 +227,6 @@ class SharpPredict:
                 intrinsics=img_intrinsics,
             )
 
-            # Determine output filename
-            if is_batch:
-                ply_filename = f"{i+1:03d}.ply"
-                ply_path = os.path.join(output_folder, ply_filename)
-            else:
-                ply_path = output_path
-
             # Save PLY and get metadata
             _, metadata = save_ply(gaussians, f_px, (height, width), Path(ply_path))
 
@@ -199,12 +238,21 @@ class SharpPredict:
             pbar.update(1)
 
         inference_time = time.time() - inference_start
-        log.info(f"Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")
+        processed = batch_size - skipped
+        if skipped > 0:
+            if processed == 0:
+                log.info(f"All {batch_size} frames cached — nothing to process")
+            else:
+                log.info(f"Skipped {skipped} cached, processed {processed}/{batch_size} in {inference_time:.2f}s ({inference_time/max(processed,1):.2f}s per image)")
+        else:
+            log.info(f"Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")
 
         # Return values
-        if is_batch:
+        if ply_directory and batch_size == 1:
+            # Deterministic mode, single image: return the file path
+            return (all_ply_paths[0], all_extrinsics[0], all_intrinsics[0],)
+        elif is_batch:
             # For batch: return folder path, and first image's camera params
-            # (assuming all images have same camera - user can override)
             return (output_path, all_extrinsics[0], all_intrinsics[0],)
         else:
             # For single image: return PLY path and camera params
